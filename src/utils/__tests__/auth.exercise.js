@@ -1,19 +1,28 @@
 // Testing Pure Functions
+// 💯 reduce duplication
 
-// 🐨 import the function that we're testing
 import {isPasswordAllowed} from '../auth'
 
-// 🐨 write tests for valid and invalid passwords
+describe('isPasswordAllowed only allows some passwords', () => {
+  const allowedPasswords = ['!aBc123']
+  const disallowedPasswords = [
+    'a2c!',
+    '123456!',
+    'ABCdef!',
+    'abc123!',
+    'ABC123!',
+    'ABCdef123',
+  ]
 
-test('isPasswordAllowed returns true for valid passwords', () => {
-  expect(isPasswordAllowed('!aBc123')).toBe(true)
-})
+  allowedPasswords.forEach(password => {
+    test(`allows ${password}`, () => {
+      expect(isPasswordAllowed(password)).toBe(true)
+    })
+  })
 
-test('isPasswordAllowed returns false for invalid passwords', () => {
-  expect(isPasswordAllowed('a2c')).toBe(false)
-  expect(isPasswordAllowed('123456')).toBe(false)
-  expect(isPasswordAllowed('123456')).toBe(false)
-  expect(isPasswordAllowed('ABCdef')).toBe(false)
-  expect(isPasswordAllowed('ABC123')).toBe(false)
-  expect(isPasswordAllowed('ABCdef123')).toBe(false)
+  disallowedPasswords.forEach(password => {
+    test(`disallows ${password}`, () => {
+      expect(isPasswordAllowed(password)).toBe(false)
+    })
+  })
 })
